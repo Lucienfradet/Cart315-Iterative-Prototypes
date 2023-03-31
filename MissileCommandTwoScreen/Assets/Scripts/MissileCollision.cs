@@ -15,10 +15,24 @@ public class MissileCollision : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        //Debug Key
+        if (Input.GetKeyDown(KeyCode.K)) {
+            missileCommand.gameState = "secondMissile";
+            GameObject.Destroy(missile);
+
+        }
+        if (Input.GetKeyDown(KeyCode.L)) {
+            missileCommand.gameState = "thirdMissile";
+            GameObject.Destroy(missile);
+
+        }
     }
 
     private void OnCollisionEnter(Collision collision) {
-        GameObject.Destroy(missile);
+        if (collision.gameObject.tag != "arrow") {
+            missileCommand.changeStateTutorial();
+            GameObject.Destroy(missile);
+        }
     }
 }

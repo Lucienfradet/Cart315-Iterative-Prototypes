@@ -32,6 +32,7 @@ public class explosion : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "missile") {
+            missileCommand.changeStateTutorial();
             Destroy(other.gameObject);
         }
     }

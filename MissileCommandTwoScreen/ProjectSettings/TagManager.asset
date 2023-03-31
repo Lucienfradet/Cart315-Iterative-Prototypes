@@ -6,6 +6,7 @@ TagManager:
   tags:
   - missile
   - monolith
+  - arrow
   layers:
   - Default
   - TransparentFX

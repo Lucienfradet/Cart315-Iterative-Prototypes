@@ -10,6 +10,11 @@ public class canonEnter : MonoBehaviour
     public GameObject UIFire;
     public GameObject UICam;
 
+    [Header("Arrow")]
+    public GameObject[] arrow;
+    public static GameObject[] arrowStatic;
+
+    [Header("Public")]
     public GameObject player;
 
     public Camera playerCam;
@@ -24,19 +29,33 @@ public class canonEnter : MonoBehaviour
         playerCam.enabled = true;
         FirstPersonMovementOutside.movementIsActive = true;
         FirstPersonMovementInside.movementIsActive = false;
+        playerCam.GetComponent<AudioListener>().enabled = true;
+        playerCanonCam.GetComponent<AudioListener>().enabled = false;
         enteringTextObj.SetActive(false);
 
         UIOverlay.SetActive(false);
         UIFire.SetActive(false);
         UICam.SetActive(false);
+
+        //set ArrowStatic
+        arrowStatic = new GameObject[arrow.Length];
+        int i = 0;
+        foreach (GameObject gO in arrow) {
+            arrowStatic[i] = gO;
+            i++;
+        }
+        SetArrowState(false);
     }
 
     private void Update() {
         if (Input.GetKeyUp(KeyCode.E) && enteringTextObj.activeSelf && !inside) {
             inside = true;
+            SetArrowState(true);
             //get inside
             FirstPersonMovementOutside.movementIsActive = false;
             FirstPersonMovementInside.movementIsActive = true;
+            playerCam.GetComponent<AudioListener>().enabled = false;
+            playerCanonCam.GetComponent<AudioListener>().enabled = true;
             FirstPersonLookInside.ResetView();
             enteringTextObj.SetActive(false);
 
@@ -50,9 +69,12 @@ public class canonEnter : MonoBehaviour
         }
         else if (Input.GetKeyUp(KeyCode.E) && inside) {
             inside = false;
+            SetArrowState(false);
             //get outisde
             FirstPersonMovementOutside.movementIsActive = true;
             FirstPersonMovementInside.movementIsActive = false;
+            playerCam.GetComponent<AudioListener>().enabled = true;
+            playerCanonCam.GetComponent<AudioListener>().enabled = false;
 
             /*UIOverlay.SetActive(false);
             UIFire.SetActive(false);
@@ -60,6 +82,7 @@ public class canonEnter : MonoBehaviour
 
             playerCam.enabled = true;
             playerCanonCam.enabled = false;
+            enteringTextObj.SetActive(true);
             Debug.Log("getting out!");
         }
     }
@@ -73,6 +96,12 @@ public class canonEnter : MonoBehaviour
     private void OnTriggerExit(Collider other) {
         if (other.tag == "Player") {
             enteringTextObj.SetActive(false);
+        }
+    }
+
+    public static void SetArrowState(bool state) {
+        foreach (GameObject gO in arrowStatic) {
+            gO.SetActive(state);
         }
     }
 }

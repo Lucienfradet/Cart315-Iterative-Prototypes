@@ -22,34 +22,46 @@ public class canonControls : MonoBehaviour
     public GameObject shaker;
     public float shakeSpeed = 1.0F;
     public float shakeAmount = 1.0F;
+    private Vector3 rotationVector;
     private Vector3 previouseVector;
     private bool shakeFlag = false;
+
+    [Header("Arrow")]
+    private FunctionTimer arrowTimer = null;
+    public float timeBeforeArrowReapears = 5F;
+
     // Start is called before the first frame update
     void Start()
     {
+     
+    }
 
+    private void FixedUpdate() {
+        if (shakeFlag) {
+            if (rotationVector != previouseVector) {
+                ShakeCanon();
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         if (canonEnter.inside) {
-            Vector3 rotationVector = new Vector3(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"), 0.0F);
+            rotationVector = new Vector3(-Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"), 0.0F);
             transform.Rotate(rotationVector * speed * Time.deltaTime);
 
-            /*Vector3 eulerRotation = transform.rotation.eulerAngles;
-            transform.rotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0);*/
-            if (shakeFlag) {
-                if (rotationVector != previouseVector) {
-                    ShakeCanon();
-                }
-            }
             shakeFlag = true;
         }
 
         //shooting
         if (Input.GetKeyDown(KeyCode.Space) && !projectileTrigger && canonEnter.inside) {
             Debug.Log("SpaceBar");
+            canonEnter.SetArrowState(false);
+
+            if (missileCommand.gameState != "firstMissile" && missileCommand.gameState != "secondMissile" && missileCommand.gameState != "thirdMissile") {
+                arrowTimer = new FunctionTimer(reactivateArrow, timeBeforeArrowReapears);
+            }
             projectileTrigger = true;
 
             projectile = Instantiate(prefabBullet) as GameObject;
@@ -58,19 +70,29 @@ public class canonControls : MonoBehaviour
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
             rb.velocity = Quaternion.AngleAxis(offset, Vector3.right)* cannonCam.transform.forward * projectileSpeed;
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && projectileTrigger && canonEnter.inside) {
+        else if (Input.GetKeyDown(KeyCode.F) && projectileTrigger && canonEnter.inside) {
             GameObject explosion = Instantiate(prefabExplosion) as GameObject;
             explosion.transform.position = projectile.transform.position;
+            canonEnter.SetArrowState(true);
 
             Object.Destroy(projectile);
             projectileTrigger = false;
         }
+
+        if (arrowTimer != null) {
+            arrowTimer.Update();
+        }
     }
 
     private void ShakeCanon() {
-        Debug.Log("shaking");
         Vector3 pos = shaker.transform.position;
         shaker.transform.position = new Vector3(pos.x + Mathf.Sin(Time.time * shakeSpeed) * shakeAmount, pos.y, pos.z);
+    }
+
+    private void reactivateArrow() {
+        Debug.Log("hello");
+        arrowTimer = null;
+        canonEnter.SetArrowState(true);
     }
 
 }
