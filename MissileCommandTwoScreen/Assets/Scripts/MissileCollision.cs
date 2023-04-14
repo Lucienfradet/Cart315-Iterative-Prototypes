@@ -18,21 +18,28 @@ public class MissileCollision : MonoBehaviour
 
         //Debug Key
         if (Input.GetKeyDown(KeyCode.K)) {
-            missileCommand.gameState = "secondMissile";
+            missileCommand.tutorialState = "secondMissile";
             GameObject.Destroy(missile);
 
         }
         if (Input.GetKeyDown(KeyCode.L)) {
-            missileCommand.gameState = "thirdMissile";
+            missileCommand.tutorialState = "thirdMissile";
             GameObject.Destroy(missile);
 
         }
     }
 
     private void OnCollisionEnter(Collision collision) {
-        if (collision.gameObject.tag != "arrow") {
-            missileCommand.changeStateTutorial();
+        if (collision.gameObject.tag != "arrow" && collision.gameObject.tag != "missile") {
+            if (missileCommand.tutorialState == "thirdMissile") {
+                missileCommand.changeStateTutorial();
+            }
             GameObject.Destroy(missile);
+            foreach (GameObject target in missileCommand.targets) {
+                if (collision.gameObject == target) {
+                    targetController.killTarget(target);
+                }
+            }
         }
     }
 }

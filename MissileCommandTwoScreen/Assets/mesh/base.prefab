@@ -1,5 +1,64 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4046915045015933277
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4256158469438219054}
+  - component: {fileID: 2993127707123730813}
+  - component: {fileID: 8688937425042386800}
+  m_Layer: 0
+  m_Name: baseEnterTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4256158469438219054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4046915045015933277}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.56199, y: -0.8692, z: 0.59615}
+  m_LocalScale: {x: 0.038320977, y: 0.04272651, z: 0.036545686}
+  m_Children: []
+  m_Father: {fileID: 5786894842834308043}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2993127707123730813
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4046915045015933277}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 29.951172, y: 41.81404, z: 33.44086}
+  m_Center: {x: 14.475586, y: 20.40702, z: -16.22043}
+--- !u!114 &8688937425042386800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4046915045015933277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d68a36448b4db34cbfeb4415376db76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  repairKeyText: {fileID: 0}
+  target: {fileID: 0}
 --- !u!1 &8911515119498857317
 GameObject:
   m_ObjectHideFlags: 0
@@ -29,7 +88,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 531.89, y: 27.2, z: 436.08}
   m_LocalScale: {x: 29.053768, y: 53.59904, z: 21.290958}
-  m_Children: []
+  m_Children:
+  - {fileID: 4256158469438219054}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
